@@ -101,24 +101,6 @@ const HeroSection: React.FC = () => {
             ))}
           </div>
 
-          {/* Trust indicators */}
-          <div className="mt-16 text-center">
-            <p className="text-white/70 text-sm mb-4">Trusted by professionals from</p>
-            <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-3 border border-white/20">
-                <span className="text-white font-semibold">Google</span>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-3 border border-white/20">
-                <span className="text-white font-semibold">Microsoft</span>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-3 border border-white/20">
-                <span className="text-white font-semibold">Amazon</span>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-3 border border-white/20">
-                <span className="text-white font-semibold">Meta</span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 

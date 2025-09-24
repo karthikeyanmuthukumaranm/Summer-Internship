@@ -2,7 +2,7 @@ import React from 'react';
 import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/HeroSection';
 import FeatureSection from '@/components/FeatureSection';
-import ResumeAnalyzer from '@/components/ResumeAnalyzer';
+import ResumeAnalyzerForm from '@/components/ResumeAnalyzerForm';
 import ChartsSection from '@/components/ChartsSection';
 import Footer from '@/components/Footer';
 
@@ -24,7 +24,7 @@ const Index = () => {
                 salary estimates, ATS optimization, and personalized recommendations.
               </p>
             </div>
-            <ResumeAnalyzer />
+            <ResumeAnalyzerForm />
           </div>
         </section>
         <section id="features">

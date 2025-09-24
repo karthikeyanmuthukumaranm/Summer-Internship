@@ -69,14 +69,9 @@ const Navigation: React.FC = () => {
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-4">
             <Button 
-              variant={isScrolled ? "outline" : "glass"} 
-              size="sm"
-            >
-              Sign In
-            </Button>
-            <Button 
               variant={isScrolled ? "hero" : "glass"} 
               size="sm"
+              onClick={() => scrollToSection('#analyze')}
             >
               Get Started
             </Button>
@@ -108,11 +103,13 @@ const Navigation: React.FC = () => {
                     {item.label}
                   </button>
                 ))}
-                <div className="pt-4 border-t border-border/50 space-y-2">
-                  <Button variant="outline" size="sm" className="w-full">
-                    Sign In
-                  </Button>
-                  <Button variant="hero" size="sm" className="w-full">
+                <div className="pt-4 border-t border-border/50">
+                  <Button 
+                    variant="hero" 
+                    size="sm" 
+                    className="w-full"
+                    onClick={() => scrollToSection('#analyze')}
+                  >
                     Get Started
                   </Button>
                 </div>
