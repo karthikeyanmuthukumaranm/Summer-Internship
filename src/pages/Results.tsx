@@ -1,12 +1,14 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Download, Share2, TrendingUp, DollarSign, Target, Award, AlertCircle, FileText } from 'lucide-react';
+import { ArrowLeft, Download, Share2, TrendingUp, DollarSign, Target, Award, AlertCircle, FileText, Brain, GitBranch } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/enhanced-button';
-import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import GitHubAnalysis from '@/components/GitHubAnalysis';
+import AIAnalysisSection from '@/components/AIAnalysisSection';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
@@ -179,12 +181,13 @@ const Results: React.FC = () => {
 
               {/* Detailed Analysis Tabs */}
               <Tabs defaultValue="overview" className="w-full animate-fade-in" style={{ animationDelay: '0.5s' }}>
-                <TabsList className="grid w-full grid-cols-5">
-                  <TabsTrigger value="overview">Overview</TabsTrigger>
-                  <TabsTrigger value="skills">Skills</TabsTrigger>
-                  <TabsTrigger value="recommendations">Tips</TabsTrigger>
-                  <TabsTrigger value="salary">Salary</TabsTrigger>
-                  <TabsTrigger value="job-match">Job Match</TabsTrigger>
+                <TabsList className="grid w-full grid-cols-6 mb-8">
+                  <TabsTrigger value="overview" className="text-sm">Overview</TabsTrigger>
+                  <TabsTrigger value="skills" className="text-sm">Skills</TabsTrigger>
+                  <TabsTrigger value="ai-analysis" className="text-sm">AI Analysis</TabsTrigger>
+                  <TabsTrigger value="github" className="text-sm">GitHub</TabsTrigger>
+                  <TabsTrigger value="recommendations" className="text-sm">Tips</TabsTrigger>
+                  <TabsTrigger value="salary" className="text-sm">Salary</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="overview" className="space-y-6 mt-6">
@@ -331,9 +334,33 @@ const Results: React.FC = () => {
                       </div>
                     </CardContent>
                   </Card>
-                </TabsContent>
+                 </TabsContent>
 
-                <TabsContent value="job-match" className="space-y-6 mt-6">
+          {/* AI Analysis Tab */}
+          <TabsContent value="ai-analysis" className="space-y-6">
+            <AIAnalysisSection 
+              aiData={analysis.aiAnalysis}
+              jobTitle={analysis.jobTitle}
+              jobDescription={analysis.jobDescription}
+            />
+          </TabsContent>
+
+          {/* GitHub Analysis Tab */}
+          <TabsContent value="github" className="space-y-6">
+            {analysis.githubAnalysis ? (
+              <GitHubAnalysis githubData={analysis.githubAnalysis} />
+            ) : (
+              <Card className="shadow-card">
+                <CardContent className="flex flex-col items-center justify-center py-12">
+                  <GitBranch className="h-16 w-16 text-muted-foreground mb-4" />
+                  <h3 className="text-lg font-semibold mb-2">No GitHub Profile Provided</h3>
+                  <p className="text-muted-foreground text-center max-w-md">
+                    Add your GitHub profile during analysis to get repository insights and project verification.
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
                   <Card className="shadow-card">
                     <CardHeader>
                       <CardTitle>Job Match Analysis</CardTitle>

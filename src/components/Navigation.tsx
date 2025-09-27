@@ -52,7 +52,10 @@ const Navigation: React.FC = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            {navItems.map((item) => (
+            <Button variant="ghost" className="text-foreground hover:text-primary" asChild>
+              <a href="/concept">Project Concept</a>
+            </Button>
+            {navItems.slice(1).map((item) => (
               <button
                 key={item.label}
                 onClick={() => scrollToSection(item.href)}

@@ -25,6 +25,28 @@ interface AnalysisResult {
   jobTitle?: string;
   jobDescription?: string;
   fileName: string;
+  githubAnalysis?: {
+    profile: string;
+    repositories: {
+      name: string;
+      language: string;
+      stars: number;
+      description: string;
+      isRelevant: boolean;
+    }[];
+    languageStats: { [key: string]: number };
+    totalRepos: number;
+    publicRepos: number;
+    profileScore: number;
+  };
+  aiAnalysis: {
+    keywordExtraction: string[];
+    skillsIdentified: string[];
+    experienceLevel: string;
+    domainClassification: string;
+    similarityScore: number;
+    tfIdfScore: number;
+  };
 }
 
 const ResumeAnalyzerForm: React.FC = () => {
@@ -32,6 +54,7 @@ const ResumeAnalyzerForm: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [jobTitle, setJobTitle] = useState('');
   const [jobDescription, setJobDescription] = useState('');
+  const [githubProfile, setGithubProfile] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [dragActive, setDragActive] = useState(false);
 
@@ -85,16 +108,33 @@ const ResumeAnalyzerForm: React.FC = () => {
 
     setIsAnalyzing(true);
     
-    // Simulate AI analysis with enhanced data including job matching
+    // Simulate advanced AI analysis with GitHub integration
     setTimeout(() => {
       const baseKeywordMatch = jobTitle ? Math.floor(Math.random() * 30) + 60 : Math.floor(Math.random() * 20) + 70;
       const adjustedAtsScore = jobDescription ? Math.min(95, baseKeywordMatch + Math.floor(Math.random() * 15)) : Math.floor(Math.random() * 30) + 70;
       
+      // Mock GitHub analysis
+      const mockRepos = [
+        { name: 'portfolio-website', language: 'React', stars: 12, description: 'Personal portfolio built with React and TypeScript', isRelevant: true },
+        { name: 'task-manager-app', language: 'JavaScript', stars: 8, description: 'Full-stack task management application', isRelevant: true },
+        { name: 'python-automation', language: 'Python', stars: 15, description: 'Data processing and automation scripts', isRelevant: true },
+        { name: 'learning-notes', language: 'Markdown', stars: 3, description: 'Personal learning notes and documentation', isRelevant: false },
+        { name: 'api-gateway', language: 'Node.js', stars: 20, description: 'Microservices API gateway with authentication', isRelevant: true },
+      ];
+
+      const languageStats = {
+        'JavaScript': 35,
+        'Python': 25,
+        'TypeScript': 20,
+        'React': 15,
+        'Node.js': 5
+      };
+
       const mockAnalysis: AnalysisResult = {
         overallScore: Math.floor(Math.random() * 25) + 70,
         salaryEstimate: {
-          min: 75000 + (jobTitle ? 10000 : 0),
-          max: 95000 + (jobTitle ? 15000 : 0),
+          min: 75000 + (jobTitle ? 10000 : 0) + (githubProfile ? 5000 : 0),
+          max: 95000 + (jobTitle ? 15000 : 0) + (githubProfile ? 10000 : 0),
           currency: 'USD'
         },
         strengths: [
@@ -102,14 +142,16 @@ const ResumeAnalyzerForm: React.FC = () => {
           'Excellent project management experience',
           'Good educational background with relevant degree',
           'Clear career progression shown',
-          ...(jobTitle ? [`Experience aligns well with ${jobTitle} requirements`] : [])
+          ...(jobTitle ? [`Experience aligns well with ${jobTitle} requirements`] : []),
+          ...(githubProfile ? ['Active GitHub profile with relevant projects', 'Demonstrates practical coding skills'] : [])
         ],
         improvements: [
           'Add more quantifiable achievements and metrics',
           'Include relevant industry certifications',
           'Optimize keywords for better ATS compatibility',
           'Add examples of soft skills and leadership',
-          ...(jobDescription ? ['Tailor experience descriptions to match job requirements'] : [])
+          ...(jobDescription ? ['Tailor experience descriptions to match job requirements'] : []),
+          ...(githubProfile ? ['Add more detailed README files to repositories', 'Increase repository documentation'] : [])
         ],
         skills: [
           { name: 'React', level: 90, inDemand: true },
@@ -118,7 +160,8 @@ const ResumeAnalyzerForm: React.FC = () => {
           { name: 'Project Management', level: 80, inDemand: false },
           { name: 'SQL', level: 65, inDemand: true },
           { name: 'AWS', level: 60, inDemand: true },
-          ...(jobTitle?.toLowerCase().includes('senior') ? [{ name: 'Leadership', level: 75, inDemand: true }] : [])
+          ...(jobTitle?.toLowerCase().includes('senior') ? [{ name: 'Leadership', level: 75, inDemand: true }] : []),
+          ...(githubProfile ? [{ name: 'Git/GitHub', level: 85, inDemand: true }] : [])
         ],
         atsScore: adjustedAtsScore,
         readabilityScore: Math.floor(Math.random() * 20) + 80,
@@ -129,11 +172,28 @@ const ResumeAnalyzerForm: React.FC = () => {
           'Include leadership examples in project descriptions',
           'Optimize resume format for senior-level positions',
           ...(jobTitle ? [`Emphasize ${jobTitle} relevant experience more prominently`] : []),
-          ...(jobDescription ? ['Add specific keywords from the job description'] : [])
+          ...(jobDescription ? ['Add specific keywords from the job description'] : []),
+          ...(githubProfile ? ['Highlight GitHub projects in resume', 'Add contribution statistics to showcase activity'] : [])
         ],
         jobTitle: jobTitle || undefined,
         jobDescription: jobDescription || undefined,
-        fileName: file.name
+        fileName: file.name,
+        githubAnalysis: githubProfile ? {
+          profile: githubProfile,
+          repositories: mockRepos,
+          languageStats,
+          totalRepos: 15,
+          publicRepos: 12,
+          profileScore: Math.floor(Math.random() * 20) + 75
+        } : undefined,
+        aiAnalysis: {
+          keywordExtraction: ['React', 'TypeScript', 'JavaScript', 'Python', 'Project Management', 'API Development', 'Database Design'],
+          skillsIdentified: ['Frontend Development', 'Backend Development', 'Full-Stack Development', 'DevOps', 'Data Analysis'],
+          experienceLevel: jobTitle?.toLowerCase().includes('senior') ? 'Senior' : jobTitle?.toLowerCase().includes('junior') ? 'Junior' : 'Mid-Level',
+          domainClassification: 'Software Engineering',
+          similarityScore: jobDescription ? Math.floor(Math.random() * 30) + 65 : Math.floor(Math.random() * 20) + 70,
+          tfIdfScore: Math.floor(Math.random() * 15) + 80
+        }
       };
 
       setIsAnalyzing(false);
@@ -241,6 +301,20 @@ const ResumeAnalyzerForm: React.FC = () => {
             />
             <p className="text-xs text-muted-foreground">
               Including job details will improve analysis accuracy and provide better keyword matching
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="githubProfile">GitHub Profile (Optional)</Label>
+            <Input
+              id="githubProfile"
+              placeholder="e.g., https://github.com/yourusername or yourusername"
+              value={githubProfile}
+              onChange={(e) => setGithubProfile(e.target.value)}
+              className="transition-all duration-200 focus:scale-105"
+            />
+            <p className="text-xs text-muted-foreground">
+              Add your GitHub profile to analyze repositories and verify projects mentioned in your resume
             </p>
           </div>
         </CardContent>
